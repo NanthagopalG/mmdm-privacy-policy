@@ -1,6 +1,6 @@
 # Placeholders to confirm before publishing
 
-Everything highlighted in yellow on the site is listed here. Business details live in
+Everything shown on the site as a muted "[Placeholder]" or "(To be confirmed: …)" is listed here. Business details live in
 `src/config.js`. The rest are `<Confirm>` tags in `src/App.vue`: replace each with final
 wording (or delete it) once confirmed. When none are left, set `showDraftNotice: false`.
 

@@ -1,8 +1,8 @@
 /**
  * Editable business information for the MMDM Privacy Policy.
  *
- * Any value that starts with "[" is treated as a placeholder and is
- * highlighted on the page so it can't be published by accident.
+ * Any value that starts with "[" is treated as a placeholder and is shown
+ * on the page in a muted style, e.g. "[Company legal name]".
  * Replace every placeholder before going live, then set
  * showDraftNotice to false.
  */
@@ -18,6 +18,7 @@ export default {
   // Android package names covered by this policy (taken from the app source).
   extensionPackage: 'com.mmdm.amapi.extension',
 
-  // Shows a banner explaining that highlighted text still needs confirmation.
+  // Shows a "Pending final review" notice under the title. Set to false once
+  // every placeholder and "to be confirmed" item is resolved.
   showDraftNotice: true,
 }

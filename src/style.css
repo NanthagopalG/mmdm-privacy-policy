@@ -7,8 +7,6 @@
   --accent: #2f6fde;
   --accent-soft: #e8f0fd;
   --border: #e7e2da;
-  --ph-bg: #fff3c4;
-  --ph-text: #6b4e00;
   --radius: 12px;
   --header-h: 64px;
   color-scheme: light;
@@ -329,25 +327,49 @@ tr:last-child td {
   }
 }
 
-/* Draft notice and placeholders */
+/* Status notice and placeholders */
 .notice {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
   margin: 24px 0 0;
   padding: 14px 18px;
-  background: #fffbea;
-  border: 1px solid #f1dc8a;
+  background: #f7f6f3;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--heading);
   border-radius: 10px;
   font-size: 0.9375rem;
-  color: #4d3d00;
+  line-height: 1.65;
+  color: var(--muted);
 }
 
+.notice p {
+  margin: 0;
+}
+
+.notice strong {
+  color: var(--heading);
+  font-weight: 600;
+}
+
+.notice-icon {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  color: var(--heading);
+}
+
+/* Missing business details, e.g. [Company legal name] */
 .ph {
-  background: var(--ph-bg);
-  color: var(--ph-text);
-  padding: 0.05em 0.35em;
-  border-radius: 4px;
+  color: var(--muted);
   font-weight: 500;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+}
+
+/* Statements awaiting confirmation */
+.tbc {
+  color: var(--muted);
+  font-style: italic;
 }
 
 /* Contact */

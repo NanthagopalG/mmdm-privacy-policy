@@ -24,15 +24,22 @@
         <p class="eyebrow">{{ config.productName }} · Legal</p>
         <h1>Privacy Policy</h1>
         <p class="meta">
-          Effective date: <ConfigValue :value="config.effectiveDate" />
+          Effective date: <ConfigValue :value="config.effectiveDate" fallback="To be confirmed" />
         </p>
       </header>
 
-      <div v-if="config.showDraftNotice" class="notice" role="note">
-        <strong>Draft for review.</strong> Highlighted text marks information that must be confirmed or
-        filled in before this policy is published. Edit business details in <code>src/config.js</code>
-        and set <code>showDraftNotice</code> to <code>false</code> when done.
-      </div>
+      <aside v-if="config.showDraftNotice" class="notice" aria-label="Policy status">
+        <svg class="notice-icon" viewBox="0 0 20 20" aria-hidden="true">
+          <circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5" />
+          <path d="M10 9v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          <circle cx="10" cy="6.25" r="1" fill="currentColor" />
+        </svg>
+        <p>
+          <strong>Pending final review.</strong> This policy describes how {{ config.productName }} currently
+          handles information. Some details, marked “to be confirmed”, are still being finalized and will be
+          updated on this page.
+        </p>
+      </aside>
 
       <!-- 1 -->
       <section :id="sections[0].id">

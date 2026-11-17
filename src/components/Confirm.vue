@@ -1,5 +1,5 @@
 <template>
-  <mark class="ph" title="Needs confirmation before publishing">[Confirm: <slot />]</mark>
+  <span class="tbc">(To be confirmed: <slot />)</span>
 </template>
 
 <script>
