@@ -1,528 +1,463 @@
 <template>
-  <a class="skip-link" href="#policy">Skip to policy</a>
+  <a class="skip-link" href="#content">Skip to content</a>
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="/" aria-label="MMDM home">
+      <a class="brand" href="/" :aria-label="config.productName + ' privacy policy'">
         <span class="brand-mark">{{ config.productName }}</span>
         <span class="brand-sub">{{ config.productTagline }}</span>
       </a>
-      <span class="header-label">Privacy Policy</span>
+      <span class="header-label">Privacy</span>
     </div>
   </header>
 
-  <main id="policy" class="container layout">
-    <aside class="toc" aria-label="Table of contents">
-      <p class="toc-title">On this page</p>
-      <ol>
-        <li v-for="s in sections" :key="s.id"><a :href="'#' + s.id">{{ s.title }}</a></li>
-      </ol>
-    </aside>
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">{{ config.productName }} Legal</p>
+      <h1>Privacy Policy</h1>
+      <p class="lede">
+        How {{ config.productName }} collects, uses and protects information when you use our Android mobile
+        device management service.
+      </p>
+      <p v-if="config.lastUpdated" class="updated">Last updated {{ config.lastUpdated }}</p>
+    </div>
+  </section>
 
-    <article class="policy">
-      <header class="policy-head">
-        <p class="eyebrow">{{ config.productName }} · Legal</p>
-        <h1>Privacy Policy</h1>
-        <p class="meta">
-          Effective date: <ConfigValue :value="config.effectiveDate" fallback="To be confirmed" />
-        </p>
-      </header>
+  <div id="content" class="container layout">
+    <nav class="toc" aria-label="Contents">
+      <details class="toc-mobile">
+        <summary>Contents</summary>
+        <ol>
+          <li v-for="(s, i) in sections" :key="s.id">
+            <a :href="'#' + s.id" @click="closeMobileToc"><span class="toc-num">{{ pad(i + 1) }}</span>{{ s.title }}</a>
+          </li>
+        </ol>
+      </details>
+      <div class="toc-desktop">
+        <p class="toc-title">Contents</p>
+        <ol>
+          <li v-for="(s, i) in sections" :key="s.id">
+            <a :href="'#' + s.id" :class="{ active: activeId === s.id }" :aria-current="activeId === s.id ? 'true' : null">
+              <span class="toc-num">{{ pad(i + 1) }}</span>{{ s.title }}
+            </a>
+          </li>
+        </ol>
+      </div>
+    </nav>
 
-      <aside v-if="config.showDraftNotice" class="notice" aria-label="Policy status">
-        <svg class="notice-icon" viewBox="0 0 20 20" aria-hidden="true">
-          <circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5" />
-          <path d="M10 9v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-          <circle cx="10" cy="6.25" r="1" fill="currentColor" />
-        </svg>
-        <p>
-          <strong>Pending final review.</strong> This policy describes how {{ config.productName }} currently
-          handles information. Some details, marked “to be confirmed”, are still being finalized and will be
-          updated on this page.
-        </p>
-      </aside>
-
+    <main class="policy">
       <!-- 1 -->
-      <section :id="sections[0].id">
-        <h2>1. Introduction</h2>
+      <section :id="sections[0].id" class="policy-section">
+        <h2><span class="num">01</span>{{ sections[0].title }}</h2>
         <p>
-          This Privacy Policy explains how <ConfigValue :value="config.companyName" /> ("we", "us", "our")
-          handles information in connection with {{ config.productName }}, an Android mobile device management
-          product used by organizations to manage company-owned Android devices.
+          {{ config.productName }} is an Android mobile device management (MDM) service. It lets you enroll Android
+          devices, apply settings and policies to them, install apps, and check their status from a web console.
         </p>
-        <p>{{ config.productName }} is made up of several components. This policy covers each of them and says which component handles which information:</p>
+        <p>
+          This Privacy Policy explains what information {{ provider }} ("we", "us") collects through
+          {{ config.productName }}, how we use it, and the choices you have. It applies to everyone who uses
+          {{ config.productName }}: people who create and manage an {{ config.productName }} account, whether for
+          themselves or for a business, and people who use a device that is managed with {{ config.productName }}.
+        </p>
+        <p>{{ config.productName }} consists of:</p>
         <ul>
-          <li>
-            <strong>MMDM AMAPI Extension</strong> (Android app, package <code>{{ config.extensionPackage }}</code>):
-            a companion app installed on managed devices by the organization's device policy. It installs and updates the
-            MMDM Launcher and reports status to the organization's MMDM backend.
-          </li>
-          <li><strong>MMDM Launcher</strong> (Android app): the home screen app shown on managed devices.</li>
-          <li>
-            <strong>MMDM administration portal and backend services</strong>: the web portal and cloud services, hosted on
-            Amazon Web Services (AWS), that organization administrators use to enroll and manage devices.
-          </li>
+          <li><strong>The {{ config.productName }} web console and backend services</strong>, where accounts are created and devices are managed.</li>
+          <li><strong>The {{ config.productName }} Extension app</strong> (<code>{{ config.extensionPackage }}</code>), installed on managed devices to install the {{ config.productName }} Launcher and report its status.</li>
+          <li><strong>The {{ config.productName }} Launcher app</strong>, the home screen shown on managed devices.</li>
         </ul>
-        <p>
-          {{ config.productName }} is intended for organizations, not for personal use. The organization that owns or manages
-          a device (for example, your employer) decides to enroll it, chooses which policies apply, and configures the
-          {{ config.productName }} apps. For device management data, the organization decides why and how the data is used,
-          and we process it on the organization's behalf.
-          <Confirm>our legal role (for example, "processor" / "service provider" for customer organizations, and "controller" for administrator account data) and the contract or data processing agreement that governs it</Confirm>
-        </p>
-        <p>
-          Device management in {{ config.productName }} uses Google's Android Management API and Google's Android Device Policy
-          app. Those are Google services and are covered by Google's own terms and privacy policy.
-        </p>
       </section>
 
       <!-- 2 -->
-      <section :id="sections[1].id">
-        <h2>2. Information We Collect</h2>
-        <p>The information handled depends on the component:</p>
+      <section :id="sections[1].id" class="policy-section">
+        <h2><span class="num">02</span>{{ sections[1].title }}</h2>
 
-        <h3>2.1 MMDM AMAPI Extension (on the managed device)</h3>
-        <p>
-          The Extension sends a limited set of device and app-status information to the organization's MMDM backend.
-          Section 3 lists every field. In summary: a device identifier, a Firebase Cloud Messaging registration token,
-          the device manufacturer, model and Android version, version and installation status of the Extension and the
-          MMDM Launcher, and which app is set as the device's home screen.
-        </p>
-        <p>
-          The current version of the Extension requests no runtime (user-granted) permissions. Its only Android permissions
-          are internet access, network state and starting after the device boots. It does not access contacts, messages,
-          call logs, location, camera, microphone, photos or files, and it does not collect a list of the apps installed on
-          the device (it only checks the configured MMDM Launcher and which app is the current home screen app).
-        </p>
-
-        <h3>2.2 MMDM Launcher (on the managed device)</h3>
-        <p>
-          The current version of the MMDM Launcher does not request internet access and does not send information to
-          {{ config.productName }} servers. To work as a home screen it uses the following on the device only:
-        </p>
+        <h3>Account information</h3>
+        <p>When you create an {{ config.productName }} account, we collect:</p>
         <ul>
-          <li>the list of launchable apps on the device, to display and search them;</li>
-          <li>battery, network and storage status, to display them;</li>
-          <li>an image the device user picks as wallpaper, if any, which it can also set as the system wallpaper;</li>
-          <li>launcher preferences (such as pinned apps and layout) and settings the organization delivers through managed configuration.</li>
-        </ul>
-
-        <h3>2.3 Administration portal and backend services</h3>
-        <p>When an organization uses {{ config.productName }}, our backend services handle:</p>
-        <ul>
-          <li>
-            <strong>Administrator account information</strong> for people who sign in to the portal, managed through Amazon
-            Cognito, such as <Confirm>exact fields, e.g. name, work email address, organization and role</Confirm>, and
-            sign-in records used for security.
-          </li>
-          <li>
-            <strong>Organization information</strong>, such as the organization's identifier and the Android enterprise
-            linked to it through Google's Android Management API.
-          </li>
-          <li>
-            <strong>Device management records</strong> created by administrators: device policies, enrollment tokens, and
-            device commands (lock, reboot and wipe) with their status and <Confirm>whether the issuing administrator and time are recorded</Confirm>.
-          </li>
-          <li>
-            <strong>Device information obtained from Google's Android Management API</strong> (described in Section 3.2).
-          </li>
-          <li>
-            <strong>Status reports from the Extension</strong> (described in Section 3.1).
-            <Confirm>where the backend stores Extension registrations and installation reports, and for how long</Confirm>
-          </li>
-          <li>
-            <strong>Technical logs</strong> generated when the services run, which may include identifiers such as device
-            and organization IDs. <Confirm>log contents and storage, e.g. Amazon CloudWatch Logs</Confirm>
-          </li>
+          <li>your name, email address, phone number and role or job title;</li>
+          <li>the name you give your account or organization.</li>
         </ul>
         <p>
-          <Confirm>whether this website, the portal or any other component uses cookies, analytics or crash reporting, and if so which providers</Confirm>
+          You can register with any email address you control. We send a one-time code to that address to verify it,
+          and you sign in with a one-time passcode sent to the same address. Accounts and sign-in are handled through
+          Amazon Cognito. We also record the role and permissions given to each person who can access the account.
         </p>
+
+        <h3>Device management information</h3>
+        <p>When you use the console, we store the information you create there, including:</p>
+        <ul>
+          <li>device policies and their settings;</li>
+          <li>enrollment tokens used to add devices;</li>
+          <li>commands sent to devices (lock, reboot and wipe) and their status;</li>
+          <li>which user created or changed these items, and when.</li>
+        </ul>
+
+        <h3>Device information</h3>
+        <p>
+          Information about managed devices comes from the {{ config.productName }} Extension app and from Google's
+          Android Management API. Section 3 describes it in detail.
+        </p>
+
+        <h3>Technical information</h3>
+        <ul>
+          <li>
+            Our backend services create technical logs when they handle requests. These can include account, device and
+            request identifiers. Our logging is designed to remove passwords, tokens and sensitive device identifiers.
+          </li>
+          <li>
+            The web console stores your session and display preferences in your browser's local and session storage so
+            that you stay signed in and your settings are remembered.
+          </li>
+        </ul>
       </section>
 
       <!-- 3 -->
-      <section :id="sections[2].id">
-        <h2>3. Device Information</h2>
+      <section :id="sections[2].id" class="policy-section">
+        <h2><span class="num">03</span>{{ sections[2].title }}</h2>
 
-        <h3>3.1 Information the Extension sends to the MMDM backend</h3>
-        <p>
-          The Extension sends the following to the organization's configured MMDM backend address over HTTPS. It does so when
-          it registers for messages (after it is assigned its role by Android Device Policy, after a restart or app update,
-          when its configuration changes, when its messaging token changes, and every 12 hours as a safety check) and after
-          each launcher installation attempt.
-        </p>
+        <h3>{{ config.productName }} Extension app</h3>
+        <p>The Extension app uses the following Android permissions. It does not ask the device user for any runtime permission.</p>
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr><th scope="col">Category</th><th scope="col">Details</th></tr>
-            </thead>
+            <thead><tr><th scope="col">Permission</th><th scope="col">Why it is used</th></tr></thead>
+            <tbody>
+              <tr><td>Internet</td><td>To receive commands, download the {{ config.productName }} Launcher and report status.</td></tr>
+              <tr><td>Network state</td><td>To wait for a network connection before sending or downloading.</td></tr>
+              <tr><td>Run at startup</td><td>To resume registration and pending work after the device restarts.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The Extension app sends the following to the {{ config.productName }} backend:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Information</th><th scope="col">Details</th></tr></thead>
             <tbody>
               <tr>
                 <td>Device identifier</td>
-                <td>
-                  An identifier set by the organization in the app's managed configuration, or, if none is set, the Android ID
-                  value assigned to this app on the device (on Android 8 and later this value is specific to the app and the device user).
-                </td>
+                <td>An identifier set in the device's management configuration, or, if none is set, the Android ID assigned to this app on the device.</td>
               </tr>
               <tr>
-                <td>Messaging token</td>
-                <td>The Firebase Cloud Messaging registration token, which lets the backend send commands to this device.</td>
+                <td>Push token</td>
+                <td>The Firebase Cloud Messaging registration token, which lets the backend send commands to the device.</td>
               </tr>
               <tr>
                 <td>Device details</td>
-                <td>Device manufacturer, device model and Android API level.</td>
+                <td>Manufacturer, model and Android version.</td>
               </tr>
               <tr>
-                <td>App details</td>
-                <td>Extension package name and version; MMDM Launcher package name and installed version.</td>
-              </tr>
-              <tr>
-                <td>Home screen state</td>
-                <td>
-                  Whether the MMDM Launcher is installed, whether it can act as a home screen, whether it is the default home
-                  screen, and the package and activity name of the app that is currently the default home screen.
-                </td>
+                <td>App status</td>
+                <td>Versions of the Extension and the {{ config.productName }} Launcher, and whether the Launcher is installed and set as the default home screen, including the name of the current default home screen app.</td>
               </tr>
               <tr>
                 <td>Installation results</td>
-                <td>
-                  Command and request identifiers, requested version, installation status, result code, a short result message,
-                  the Android Management API command identifier and the attempt number.
-                </td>
+                <td>Command identifiers, requested version, installation status, result code and a short result message.</td>
               </tr>
               <tr>
                 <td>Timestamps</td>
-                <td>The time each report is created (UTC).</td>
+                <td>When each report was created.</td>
               </tr>
             </tbody>
           </table>
         </div>
-
-        <h3>3.2 Information obtained from Google's Android Management API</h3>
         <p>
-          When an administrator views devices in the portal, the backend requests device records from Google's Android
-          Management API. The portal is built to show only a defined set of fields: device ID, device and policy state,
-          management mode, ownership, applied policy and compliance details, enrollment time, last status report and last
-          policy sync time, enrollment token, brand, manufacturer, model, Android version and security patch level.
+          It sends this information when it registers for push messages (after setup, after a restart or app update,
+          when its configuration or push token changes, and every 12 hours) and after each installation attempt.
         </p>
         <p>
-          Google's device records can contain additional information, such as hardware serial numbers, IMEI/MEID, MAC addresses
-          or phone numbers. The portal is designed not to display these fields.
-          <Confirm>whether the backend stores, caches or logs any part of the full Android Management API device record</Confirm>
+          The Extension app does not access contacts, messages, call logs, location, camera, microphone, photos or files,
+          and does not collect a list of the apps installed on the device. It only checks the {{ config.productName }}
+          Launcher and which app is the default home screen.
         </p>
 
-        <h3>3.3 Information kept on the device</h3>
-        <ul>
-          <li>
-            The Extension keeps its own status (for example registration state and the last installation result) in
-            app-private storage that other apps cannot read. Android backup and device-to-device transfer of this data are
-            disabled.
-          </li>
-          <li>
-            While a launcher installation is queued or retrying, the Extension temporarily stores the installation command,
-            including a time-limited download link, in its app-private job database. Android's job scheduler removes finished
-            job records after its retention period.
-          </li>
-          <li>
-            The downloaded launcher installation file is deleted after the installation finishes.
-          </li>
-          <li>
-            The Extension writes diagnostic messages to the device's system log. These messages are designed to hide
-            credentials and shorten tokens and download links, but can include the device identifier.
-          </li>
-        </ul>
+        <h3>{{ config.productName }} Launcher app</h3>
+        <p>
+          The Launcher uses the network state and set wallpaper permissions. It does not have internet access and does not
+          send information to {{ config.productName }}. On the device, it uses the list of installed apps (to display
+          them), battery, network and storage status (to display them), a wallpaper image the device user picks, and its
+          own settings.
+        </p>
+
+        <h3>Information from Google's Android Management API</h3>
+        <p>
+          {{ config.productName }} manages devices through Google's Android Management API. The console shows the
+          following device information from it: device state, management mode, ownership type, applied policy and
+          compliance details, enrollment, last status report and last policy sync times, brand, manufacturer, model,
+          Android version and security patch level.
+        </p>
+        <p>
+          Google's device records can also include hardware identifiers such as serial number, IMEI, MAC address or phone
+          number. The {{ config.productName }} console is designed not to display these.
+        </p>
       </section>
 
       <!-- 4 -->
-      <section :id="sections[3].id">
-        <h2>4. Location Information</h2>
-        <ul>
-          <li>
-            <strong>MMDM AMAPI Extension:</strong> the current version does not request location permissions and does not
-            collect device location.
-          </li>
-          <li>
-            <strong>MMDM Launcher:</strong> the current version does not request location permissions and does not collect
-            device location.
-          </li>
-          <li>
-            <strong>Portal and backend:</strong> the current version does not include a feature to collect or display device
-            location. <Confirm>that no location data is collected by the backend or portal, and that no device-location feature is planned; if one is added, this section must be updated before release</Confirm>
-          </li>
-        </ul>
+      <section :id="sections[3].id" class="policy-section">
+        <h2><span class="num">04</span>{{ sections[3].title }}</h2>
         <p>
-          Device policies that an organization applies through Google's Android Management API can include settings that
-          control the device's own location features. Such settings change how the device behaves; they do not send the
-          device's location to {{ config.productName }}.
+          The {{ config.productName }} Extension and Launcher apps do not request location permissions and do not collect
+          device location. The {{ config.productName }} console and backend do not include a device location feature.
+        </p>
+        <p>
+          Device policies applied through {{ config.productName }} can include settings that control the device's own
+          location features. These settings change how the device behaves; they do not send the device's location to
+          {{ config.productName }}.
         </p>
       </section>
 
       <!-- 5 -->
-      <section :id="sections[4].id">
-        <h2>5. How We Use Information</h2>
-        <p>We use the information described above to:</p>
+      <section :id="sections[4].id" class="policy-section">
+        <h2><span class="num">05</span>{{ sections[4].title }}</h2>
+        <p>We use information to:</p>
         <ul>
-          <li>deliver device management commands from the organization's backend to its devices through Firebase Cloud Messaging;</li>
-          <li>install and update the organization's MMDM Launcher, and check the file's package name, version and signing certificate before installation;</li>
-          <li>show administrators whether installations succeeded and whether the MMDM Launcher is the device's home screen;</li>
-          <li>show administrators device status, policy compliance and basic device details in the portal;</li>
-          <li>carry out device policies and commands that administrators issue;</li>
-          <li>authenticate administrators and control what each administrator role can do;</li>
-          <li>keep the service secure, investigate problems and prevent misuse; and</li>
-          <li>meet legal obligations. <Confirm>any other purposes, e.g. billing, customer support, product improvement</Confirm></li>
+          <li>create and verify your account, sign you in, and control who can access it;</li>
+          <li>enroll devices and apply the policies and commands you choose;</li>
+          <li>send commands to devices through push notifications;</li>
+          <li>install and update the {{ config.productName }} Launcher, after checking the file's package name, version and signing certificate;</li>
+          <li>show device status, policy compliance and installation results in the console;</li>
+          <li>keep the service secure, investigate problems and prevent misuse.</li>
         </ul>
-        <p>
-          The {{ config.productName }} Android apps contain no advertising code.
-          <Confirm>We do not sell information and do not use it for advertising or profiling.</Confirm>
-        </p>
+        <p>The {{ config.productName }} Android apps do not contain advertising code.</p>
       </section>
 
       <!-- 6 -->
-      <section :id="sections[5].id">
-        <h2>6. Device Management and Administrative Controls</h2>
-        <p>
-          {{ config.productName }} gives the organization's administrators control over its managed devices. Depending on the
-          role assigned to them by the organization, administrators can:
-        </p>
+      <section :id="sections[5].id" class="policy-section">
+        <h2><span class="num">06</span>{{ sections[5].title }}</h2>
+        <p>The {{ config.productName }} backend runs on Amazon Web Services (AWS):</p>
         <ul>
-          <li>enroll devices and create enrollment tokens;</li>
-          <li>create and apply device policies through Google's Android Management API, which can control apps, device settings, restrictions and the default home screen;</li>
-          <li>view device status, compliance and the device details listed in Section 3;</li>
-          <li>issue remote commands to lock or reboot a device, and, where enabled for the deployment, wipe a device (wiping erases data on the device and requires the administrator to have signed in recently);</li>
-          <li>configure the Extension and the Launcher through managed configuration (for example the backend address, device identifier, allowed download locations and launcher appearance).</li>
+          <li><strong>Amazon API Gateway</strong> receives requests from the console and the Extension app over HTTPS.</li>
+          <li><strong>AWS Lambda</strong> runs the backend logic.</li>
+          <li><strong>Amazon DynamoDB</strong> stores account, policy, enrollment token and device command records.</li>
+          <li><strong>Amazon Cognito</strong> manages accounts and sign-in.</li>
+          <li><strong>Amazon S3</strong> stores {{ config.productName }} Launcher installation files, which devices download through time-limited links.</li>
         </ul>
-        <p>
-          The Extension is installed and configured by the organization's device policy. Device users cannot change its
-          settings. If you use a managed device and have questions about what your organization can see or do, please contact
-          your organization's IT administrator.
-        </p>
+        <p>Security measures include:</p>
+        <ul>
+          <li>The Extension app only communicates over HTTPS; unencrypted connections are disabled.</li>
+          <li>Every console request must carry a valid sign-in token, and access is limited by role.</li>
+          <li>Each account's records are kept separate, and the backend only returns them to that account's authorized users.</li>
+          <li>Wiping a device requires a recent sign-in.</li>
+          <li>The Extension app only installs the {{ config.productName }} Launcher from allowed locations and only when its signing certificate matches the configured value.</li>
+          <li>The Extension app keeps its data in private app storage, excludes it from Android backups, and does not save backend credentials.</li>
+        </ul>
+        <p>No method of transmission or storage is completely secure, and we cannot guarantee absolute security.</p>
       </section>
 
       <!-- 7 -->
-      <section :id="sections[6].id">
-        <h2>7. Data Sharing and Third-Party Services</h2>
-        <p>Information is shared with, or processed by, the following:</p>
-        <ul>
-          <li>
-            <strong>Your organization.</strong> Device information and status reports are available to the organization's
-            authorized administrators in the portal.
-          </li>
-          <li>
-            <strong>Google Firebase Cloud Messaging</strong> delivers messages from the backend to the Extension. To do so, the
-            Firebase SDK in the Extension uses a registration token and a Firebase installation ID. See
-            <a href="https://firebase.google.com/support/privacy" rel="noopener" target="_blank">Firebase privacy information</a>.
-          </li>
-          <li>
-            <strong>Google Android Management API and Android Device Policy</strong> apply the organization's policies, perform
-            launcher installation, and provide device records to the backend. See the
-            <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">Google Privacy Policy</a>.
-          </li>
-          <li>
-            <strong>Managed Google Play</strong> may be used to distribute the {{ config.productName }} apps to managed devices.
-          </li>
-          <li>
-            <strong>Amazon Web Services</strong> hosts the backend, data storage and launcher installation files (see Section 8).
-          </li>
-          <li>
-            <strong>Legal and safety reasons.</strong> <Confirm>when we may disclose information to comply with law, respond to lawful requests, or protect rights and safety</Confirm>
-          </li>
-          <li>
-            <strong>Business transfers.</strong> <Confirm>whether information may transfer as part of a merger, acquisition or sale of assets</Confirm>
-          </li>
-        </ul>
-        <p><Confirm>complete list of any other service providers or sub-processors (e.g. email, support, monitoring, payment providers)</Confirm></p>
+      <section :id="sections[6].id" class="policy-section">
+        <h2><span class="num">07</span>{{ sections[6].title }}</h2>
+        <div class="providers">
+          <div class="provider">
+            <h3>Google Firebase Cloud Messaging</h3>
+            <p>
+              Delivers push messages from the backend to the Extension app. The Firebase SDK uses a registration token and a
+              Firebase installation ID.
+              <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase privacy</a>
+            </p>
+          </div>
+          <div class="provider">
+            <h3>Google Android Management API</h3>
+            <p>
+              Applies policies and commands, installs apps through Google's Android Device Policy app, and provides device
+              records to {{ config.productName }}.
+              <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>
+            </p>
+          </div>
+          <div class="provider">
+            <h3>Amazon Web Services</h3>
+            <p>
+              Hosts the {{ config.productName }} backend, account sign-in, data storage and installation files.
+              <a href="https://aws.amazon.com/privacy/" target="_blank" rel="noopener">AWS Privacy Notice</a>
+            </p>
+          </div>
+        </div>
+        <p>These providers process information under their own terms and privacy policies.</p>
       </section>
 
       <!-- 8 -->
-      <section :id="sections[7].id">
-        <h2>8. AWS Backend and Cloud Storage</h2>
-        <p>The {{ config.productName }} backend runs on Amazon Web Services and uses:</p>
+      <section :id="sections[7].id" class="policy-section">
+        <h2><span class="num">08</span>{{ sections[7].title }}</h2>
+        <p>We share information in the following ways:</p>
         <ul>
-          <li><strong>Amazon API Gateway</strong> to receive HTTPS requests from the portal and the Extension;</li>
-          <li><strong>AWS Lambda</strong> to run the backend logic;</li>
-          <li><strong>Amazon DynamoDB</strong> to store organization, policy, enrollment token, device command and administrator profile records;</li>
-          <li><strong>Amazon Cognito</strong> to manage administrator sign-in;</li>
           <li>
-            <strong>Amazon S3</strong> to store MMDM Launcher installation files. Devices download these files over HTTPS using
-            time-limited (pre-signed) links.
+            <strong>{{ provider }} staff.</strong> Our authorized staff may access account and device information when
+            needed to provide support, operate the service and keep it secure.
+          </li>
+          <li>
+            <strong>Within your account.</strong> Device and status information is visible to the users of the
+            {{ config.productName }} account that manages the device, according to their role.
+          </li>
+          <li>
+            <strong>Service providers.</strong> The providers listed in Section 7 process information to run
+            {{ config.productName }}.
+          </li>
+          <li>
+            <strong>Legal requirements.</strong> We may disclose information when required by law or to respond to a
+            valid legal request.
           </li>
         </ul>
-        <p>
-          The backend is configured for the AWS Asia Pacific (Mumbai) region (<code>ap-south-1</code>).
-          <Confirm>production AWS region(s) for all services, including S3 and Cognito, and any cross-border data transfers and the safeguards used</Confirm>
-        </p>
-        <p>
-          Records stored in the backend are separated by organization, and the backend only returns an organization's records
-          to that organization's authorized administrators.
-          <Confirm>encryption at rest settings for DynamoDB, S3 and logs</Confirm>
-        </p>
       </section>
 
       <!-- 9 -->
-      <section :id="sections[8].id">
-        <h2>9. Data Retention</h2>
+      <section :id="sections[8].id" class="policy-section">
+        <h2><span class="num">09</span>{{ sections[8].title }}</h2>
         <ul>
           <li>
-            <strong>On the device:</strong> Extension data stays in app-private storage until it is replaced, the app is
-            uninstalled, or the device is wiped. Temporary installation job records are removed by Android's job scheduler
-            after it finishes with them, and downloaded installation files are deleted after installation.
+            <strong>Account and management information</strong> is kept to provide {{ config.productName }} to the account
+            it belongs to. To request deletion of your account or its information, contact us using the details in
+            Section 13.
           </li>
           <li>
-            <strong>Device and status records in the backend:</strong>
-            <Confirm>how long device registrations, messaging tokens and installation reports are kept, and when they are deleted (e.g. when a device is removed from MMDM)</Confirm>
+            <strong>Enrollment tokens</strong> can be revoked by account users in the console.
           </li>
           <li>
-            <strong>Device commands, policies and enrollment tokens:</strong> <Confirm>retention period</Confirm>
-          </li>
-          <li>
-            <strong>Administrator accounts:</strong> <Confirm>retention after an account or organization is deleted</Confirm>
-          </li>
-          <li>
-            <strong>Logs:</strong> <Confirm>log retention period</Confirm>
-          </li>
-          <li>
-            <strong>Launcher installation files in S3:</strong> <Confirm>retention period</Confirm>
+            <strong>On the device</strong>, the Extension app's data stays in private app storage until it is replaced,
+            the app is uninstalled or the device is wiped. Temporary installation records are removed automatically
+            some time after the work is finished, and downloaded installation files are deleted after installation completes.
           </li>
         </ul>
-        <p>
-          The organization decides when devices are removed from management and when its data should be deleted.
-          <Confirm>what happens to an organization's data when its subscription ends</Confirm>
-        </p>
       </section>
 
       <!-- 10 -->
-      <section :id="sections[9].id">
-        <h2>10. Data Security</h2>
-        <p>Measures in the current version include:</p>
-        <ul>
-          <li>The Extension communicates only over HTTPS; unencrypted (cleartext) network traffic is disabled.</li>
-          <li>
-            Before installing the MMDM Launcher, the Extension checks that the download comes from an allowed host and that the
-            file's package name, version and signing certificate match the values configured by the organization.
-          </li>
-          <li>The Extension does not save backend credentials; it reads them from the organization's managed configuration when needed.</li>
-          <li>Extension data is kept in app-private storage, and Android backups of it are disabled.</li>
-          <li>Logs in the Extension and the backend are designed to redact credentials and sensitive identifiers.</li>
-          <li>
-            The portal uses role-based access for administrators, keeps each organization's records separate, and requires a
-            recent sign-in before a device can be wiped.
-          </li>
-        </ul>
+      <section :id="sections[9].id" class="policy-section">
+        <h2><span class="num">10</span>{{ sections[9].title }}</h2>
         <p>
-          No method of transmission or storage is completely secure, and we cannot guarantee absolute security.
-          <Confirm>incident response and breach notification commitments to customer organizations</Confirm>
+          Depending on where you live, you may have the right to access, correct or delete your personal information,
+          to object to or restrict certain processing, and to withdraw consent. To make a request, contact us using the
+          details in Section 13. We may need to verify your identity before acting on it.
+        </p>
+        <p>
+          If you use a device that someone else manages with {{ config.productName }}, that account controls the
+          device's settings and its management information. We may refer your request to that account, or help it
+          respond.
         </p>
       </section>
 
       <!-- 11 -->
-      <section :id="sections[10].id">
-        <h2>11. User and Organization Rights</h2>
+      <section :id="sections[10].id" class="policy-section">
+        <h2><span class="num">11</span>{{ sections[10].title }}</h2>
         <p>
-          Depending on where you live, you may have rights under data protection law, such as the right to access, correct or
-          delete personal information, or to object to certain processing.
+          {{ config.productName }} is not directed to children, and {{ config.productName }} accounts are not intended
+          for children. We do not knowingly collect personal information from children to create accounts. If you
+          believe a child has provided us with personal information, contact us and we will take appropriate action.
         </p>
-        <ul>
-          <li>
-            <strong>Device users:</strong> the organization that manages your device controls the device management data
-            described in this policy, including when it is deleted. Please send requests about that data to your organization's
-            IT administrator. If you contact us directly, we will refer your request to the organization or help it respond, as
-            our agreement with the organization allows.
-          </li>
-          <li>
-            <strong>Organizations and administrators:</strong> organizations can manage their devices and records through the
-            portal and can contact us at <ConfigValue :value="config.contactEmail" type="email" /> for help with data requests.
-            <Confirm>which deletion and export functions are available in the portal, and how organizations request full deletion</Confirm>
-          </li>
-        </ul>
-        <p><Confirm>applicable laws and jurisdictions (e.g. India's DPDP Act, GDPR) and how to lodge a complaint with a regulator</Confirm></p>
       </section>
 
       <!-- 12 -->
-      <section :id="sections[11].id">
-        <h2>12. Children's Privacy</h2>
+      <section :id="sections[11].id" class="policy-section">
+        <h2><span class="num">12</span>{{ sections[11].title }}</h2>
         <p>
-          {{ config.productName }} is a business product for organizations and is not directed to children. We do not knowingly
-          collect personal information from children through {{ config.productName }}.
-          <Confirm>minimum age referenced (e.g. under 13, or under 18), and whether MMDM may be used by schools or on devices used by minors, in which case the organization is responsible for any required consents</Confirm>
+          We may update this Privacy Policy when {{ config.productName }} or our practices change. The current version
+          is always available on this page, with the date it was last updated.
         </p>
       </section>
 
       <!-- 13 -->
-      <section :id="sections[12].id">
-        <h2>13. Changes to This Privacy Policy</h2>
+      <section :id="sections[12].id" class="policy-section">
+        <h2><span class="num">13</span>{{ sections[12].title }}</h2>
         <p>
-          We may update this Privacy Policy when {{ config.productName }} or our practices change. The updated version will be
-          posted on this page with a new effective date.
-          <Confirm>whether and how customer organizations are notified of material changes, e.g. by email</Confirm>
+          For questions or requests about this Privacy Policy or your information, please contact us{{ hasContact ? ':' : '.' }}
         </p>
-      </section>
-
-      <!-- 14 -->
-      <section :id="sections[13].id">
-        <h2>14. Contact Information</h2>
-        <p>If you have questions about this Privacy Policy, please contact:</p>
-        <address class="contact-card">
-          <strong><ConfigValue :value="config.companyName" /></strong><br />
-          <ConfigValue :value="config.companyAddress" /><br />
-          Email: <ConfigValue :value="config.contactEmail" type="email" /><br />
-          Website: <ConfigValue :value="config.websiteUrl" type="url" />
+        <address v-if="hasContact" class="contact-card">
+          <span v-if="config.companyName" class="contact-name">{{ config.companyName }}</span>
+          <span v-if="config.companyAddress">{{ config.companyAddress }}</span>
+          <a v-if="config.contactEmail" :href="'mailto:' + config.contactEmail">{{ config.contactEmail }}</a>
+          <a v-if="config.websiteUrl" :href="config.websiteUrl" target="_blank" rel="noopener">{{ displayUrl }}</a>
         </address>
-        <p>
-          If you use a device managed by an organization, please contact your organization's IT administrator first for
-          questions about how that organization uses {{ config.productName }}.
-        </p>
       </section>
-    </article>
-  </main>
+    </main>
+  </div>
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <span>&copy; {{ year }} <ConfigValue :value="config.companyName" />. All rights reserved.</span>
-      <a href="#policy">Back to top</a>
+      <span>&copy; {{ year }} {{ provider }}</span>
+      <a href="#top" @click.prevent="toTop">Back to top</a>
     </div>
   </footer>
 </template>
 
 <script>
 import config from './config.js'
-import Confirm from './components/Confirm.vue'
-import ConfigValue from './components/ConfigValue.vue'
 
 export default {
   name: 'App',
-  components: { Confirm, ConfigValue },
   data() {
     return {
       config,
       year: new Date().getFullYear(),
+      activeId: 'introduction',
+      observer: null,
       sections: [
         { id: 'introduction', title: 'Introduction' },
         { id: 'information-we-collect', title: 'Information We Collect' },
-        { id: 'device-information', title: 'Device Information' },
+        { id: 'device-information', title: 'Device Information and Permissions' },
         { id: 'location-information', title: 'Location Information' },
         { id: 'how-we-use-information', title: 'How We Use Information' },
-        { id: 'device-management', title: 'Device Management and Administrative Controls' },
-        { id: 'data-sharing', title: 'Data Sharing and Third-Party Services' },
-        { id: 'aws-backend', title: 'AWS Backend and Cloud Storage' },
-        { id: 'data-retention', title: 'Data Retention' },
-        { id: 'data-security', title: 'Data Security' },
-        { id: 'your-rights', title: 'User and Organization Rights' },
+        { id: 'data-storage-and-security', title: 'Data Storage and Security' },
+        { id: 'third-party-services', title: 'Third-Party Services' },
+        { id: 'data-sharing', title: 'Data Sharing' },
+        { id: 'data-retention-and-deletion', title: 'Data Retention and Deletion' },
+        { id: 'your-privacy-rights', title: 'Your Privacy Rights' },
         { id: 'childrens-privacy', title: "Children's Privacy" },
-        { id: 'changes', title: 'Changes to This Privacy Policy' },
-        { id: 'contact', title: 'Contact Information' },
+        { id: 'changes', title: 'Changes to This Policy' },
+        { id: 'contact', title: 'Contact Us' },
       ],
     }
   },
+  computed: {
+    provider() {
+      return config.companyName || config.productName
+    },
+    hasContact() {
+      return Boolean(config.companyName || config.companyAddress || config.contactEmail || config.websiteUrl)
+    },
+    displayUrl() {
+      return config.websiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')
+    },
+  },
   mounted() {
-    document.title = `${config.productName} Privacy Policy`
-    // Content renders after page load, so jump to a linked section (e.g. #data-retention) manually.
-    const id = decodeURIComponent(window.location.hash.slice(1))
-    const target = id && document.getElementById(id)
-    if (target) {
+    document.title = `Privacy Policy | ${config.productName}`
+    this.jumpToHash()
+    this.watchSections()
+  },
+  beforeUnmount() {
+    if (this.observer) this.observer.disconnect()
+  },
+  methods: {
+    pad(n) {
+      return String(n).padStart(2, '0')
+    },
+    // Content renders after page load, so jump to a linked section (e.g. #data-sharing) manually.
+    jumpToHash() {
+      const id = decodeURIComponent(window.location.hash.slice(1))
+      const target = id && document.getElementById(id)
+      if (!target) return
       const jump = () => target.scrollIntoView({ behavior: 'instant', block: 'start' })
       jump()
-      // Re-align once web fonts have loaded and changed the layout.
       if (document.fonts) document.fonts.ready.then(jump)
-    }
+    },
+    // Highlights the section currently being read in the table of contents.
+    watchSections() {
+      if (!('IntersectionObserver' in window)) return
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries.filter((e) => e.isIntersecting)
+          if (visible.length) this.activeId = visible[0].target.id
+        },
+        { rootMargin: '-20% 0px -70% 0px' },
+      )
+      this.sections.forEach((s) => {
+        const el = document.getElementById(s.id)
+        if (el) this.observer.observe(el)
+      })
+    },
+    closeMobileToc(event) {
+      const details = event.target.closest('details')
+      if (details) details.open = false
+    },
+    toTop() {
+      window.scrollTo({ top: 0 })
+      history.replaceState(null, '', window.location.pathname)
+    },
   },
 }
 </script>

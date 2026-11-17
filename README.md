@@ -5,16 +5,15 @@ Static, single-page privacy policy for MMDM. Vue 3 (Options API) + Vite, plain J
 ```
 index.html            Page title, meta description, favicon, Poppins font
 public/favicon.svg
-src/config.js         Editable business details (company, email, URL, date, address)
-src/App.vue           The privacy policy content
-src/components/       Confirm.vue (highlighted placeholder), ConfigValue.vue
+src/config.js         Editable business details (company, email, date, address, URL)
+src/App.vue           The privacy policy content (13 sections)
 src/style.css
 vercel.json           Vite framework + /privacy-policy and /privacy rewrites
-PLACEHOLDERS.md       Everything you must confirm before publishing
+PLACEHOLDERS.md       Practices and details to confirm (not shown on the site)
 ```
 
 The policy is served at `/`, `/privacy-policy` and `/privacy` (all show the same page).
-Section links such as `/privacy-policy#data-retention` work when opened directly.
+Section links such as `/privacy-policy#data-retention-and-deletion` work when opened directly.
 
 ## Run locally
 
@@ -42,9 +41,9 @@ Open http://localhost:4173.
 
 ## Before publishing
 
-1. Fill in `src/config.js`.
-2. Resolve every item in `PLACEHOLDERS.md` (each highlighted `[Confirm: …]` on the page).
-3. Set `showDraftNotice: false` in `src/config.js`.
+1. Fill in `src/config.js`. Empty values are hidden on the page, and `npm run build`
+   prints a warning for each required value that is still empty.
+2. Work through `PLACEHOLDERS.md`.
 
 ## Push to GitHub
 
