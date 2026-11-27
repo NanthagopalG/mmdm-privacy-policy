@@ -50,20 +50,24 @@
       <section :id="sections[0].id" class="policy-section">
         <h2><span class="num">01</span>{{ sections[0].title }}</h2>
         <p>
-          {{ config.productName }} is an Android mobile device management (MDM) service. It lets you enroll Android
-          devices, apply settings and policies to them, install apps, and check their status from a web console.
+          {{ config.productName }} is an Android mobile device management (MDM) service for organizations. It lets an
+          organization enroll its Android devices, apply settings and policies to them, choose the apps they show, and
+          check their status from a web console.
         </p>
         <p>
           This Privacy Policy explains what information {{ provider }} ("we", "us") collects through
-          {{ config.productName }}, how we use it, and the choices you have. It applies to everyone who uses
-          {{ config.productName }}: people who create and manage an {{ config.productName }} account, whether for
-          themselves or for a business, and people who use a device that is managed with {{ config.productName }}.
+          {{ config.productName }}, how we use it, and the choices you have. It applies to people who create and manage
+          an {{ config.productName }} account for their organization, and to people who use a device that their
+          organization manages with {{ config.productName }}.
         </p>
         <p>{{ config.productName }} consists of:</p>
         <ul>
-          <li><strong>The {{ config.productName }} web console and backend services</strong>, where accounts are created and devices are managed.</li>
-          <li><strong>The {{ config.productName }} Extension app</strong> (<code>{{ config.extensionPackage }}</code>), installed on managed devices to install the {{ config.productName }} Launcher and report its status.</li>
-          <li><strong>The {{ config.productName }} Launcher app</strong>, the home screen shown on managed devices.</li>
+          <li><strong>The {{ config.productName }} web console and backend services</strong>, where organizations create accounts and manage their devices.</li>
+          <li>
+            <strong>The {{ config.productName }} Launcher app</strong> (<code>{{ config.launcherPackage }}</code>), the home
+            screen installed on devices that an organization manages. It is installed by the organization through Google's
+            Android management tools and is not intended for personal, unmanaged devices.
+          </li>
         </ul>
       </section>
 
@@ -72,29 +76,29 @@
         <h2><span class="num">02</span>{{ sections[1].title }}</h2>
 
         <h3>Account information</h3>
-        <p>When you create an {{ config.productName }} account, we collect:</p>
+        <p>When an organization creates an {{ config.productName }} account, we collect:</p>
         <ul>
-          <li>your name, email address, phone number and role or job title;</li>
-          <li>the name you give your account or organization.</li>
+          <li>the name, work email address, phone number and role of the person signing up and of each administrator they add;</li>
+          <li>the organization's name.</li>
         </ul>
         <p>
-          You can register with any email address you control. We send a one-time code to that address to verify it,
-          and you sign in with a one-time passcode sent to the same address. Accounts and sign-in are handled through
-          Amazon Cognito. We also record the role and permissions given to each person who can access the account.
+          Administrators sign in with a one-time passcode sent to their email address; there are no passwords. Accounts and
+          sign-in are handled through Amazon Cognito. We also record the role given to each administrator.
         </p>
 
         <h3>Device management information</h3>
-        <p>When you use the console, we store the information you create there, including:</p>
+        <p>When administrators use the console, we store the information they create there, including:</p>
         <ul>
-          <li>device policies and their settings;</li>
+          <li>device groups, device policies and their settings;</li>
+          <li>the apps chosen for devices, and wallpaper or branding images uploaded for the Launcher;</li>
           <li>enrollment tokens used to add devices;</li>
-          <li>commands sent to devices (lock, reboot and wipe) and their status;</li>
-          <li>which user created or changed these items, and when.</li>
+          <li>commands sent to devices (such as lock, reboot, reset password, lost mode or clearing app data) and their status;</li>
+          <li>an activity log of which administrator created or changed these items, and when.</li>
         </ul>
 
         <h3>Device information</h3>
         <p>
-          Information about managed devices comes from the {{ config.productName }} Extension app and from Google's
+          Information about managed devices comes from the {{ config.productName }} Launcher app and from Google's
           Android Management API. Section 3 describes it in detail.
         </p>
 
@@ -102,11 +106,11 @@
         <ul>
           <li>
             Our backend services create technical logs when they handle requests. These can include account, device and
-            request identifiers. Our logging is designed to remove passwords, tokens and sensitive device identifiers.
+            request identifiers. Our logging is designed to leave out passwords, tokens and device secrets.
           </li>
           <li>
-            The web console stores your session and display preferences in your browser's local and session storage so
-            that you stay signed in and your settings are remembered.
+            The web console stores your session and display preferences in your browser's local storage so that you stay
+            signed in and your settings are remembered.
           </li>
         </ul>
       </section>
@@ -115,30 +119,38 @@
       <section :id="sections[2].id" class="policy-section">
         <h2><span class="num">03</span>{{ sections[2].title }}</h2>
 
-        <h3>{{ config.productName }} Extension app</h3>
-        <p>The Extension app uses the following Android permissions. It does not ask the device user for any runtime permission.</p>
+        <h3>{{ config.productName }} Launcher app</h3>
+        <p>
+          The Launcher replaces the device's home screen. It shows the apps the organization allows, the organization's
+          wallpaper and branding, and the device's battery, network and storage status. It uses the following Android
+          permissions and does not ask the device user for any runtime permission.
+        </p>
         <div class="table-wrap">
           <table>
             <thead><tr><th scope="col">Permission</th><th scope="col">Why it is used</th></tr></thead>
             <tbody>
-              <tr><td>Internet</td><td>To receive commands, download the {{ config.productName }} Launcher and report status.</td></tr>
-              <tr><td>Network state</td><td>To wait for a network connection before sending or downloading.</td></tr>
-              <tr><td>Run at startup</td><td>To resume registration and pending work after the device restarts.</td></tr>
+              <tr><td>Internet</td><td>To register the device with the {{ config.productName }} backend, receive setting updates, and download the organization's wallpaper and branding images over HTTPS.</td></tr>
+              <tr><td>Network state</td><td>To show whether the device is connected, and to wait for a connection before downloading.</td></tr>
+              <tr><td>Set wallpaper</td><td>To apply the organization's wallpaper to the home and lock screens.</td></tr>
+              <tr><td>Run at startup</td><td>To restore its settings and registration after the device restarts.</td></tr>
             </tbody>
           </table>
         </div>
-        <p>The Extension app sends the following to the {{ config.productName }} backend:</p>
+        <p>The Launcher sends the following to the {{ config.productName }} backend:</p>
         <div class="table-wrap">
           <table>
             <thead><tr><th scope="col">Information</th><th scope="col">Details</th></tr></thead>
             <tbody>
               <tr>
-                <td>Device identifier</td>
-                <td>An identifier set in the device's management configuration, or, if none is set, the Android ID assigned to this app on the device.</td>
+                <td>Device identifiers</td>
+                <td>
+                  The device identifier and enrollment identifiers set by the organization in the app's management
+                  configuration, or, if no device identifier is set, the Android ID assigned to this app on the device.
+                </td>
               </tr>
               <tr>
                 <td>Push token</td>
-                <td>The Firebase Cloud Messaging registration token, which lets the backend send commands to the device.</td>
+                <td>The Firebase Cloud Messaging registration token, which lets the backend tell the Launcher that its settings changed.</td>
               </tr>
               <tr>
                 <td>Device details</td>
@@ -146,11 +158,7 @@
               </tr>
               <tr>
                 <td>App status</td>
-                <td>Versions of the Extension and the {{ config.productName }} Launcher, and whether the Launcher is installed and set as the default home screen, including the name of the current default home screen app.</td>
-              </tr>
-              <tr>
-                <td>Installation results</td>
-                <td>Command identifiers, requested version, installation status, result code and a short result message.</td>
+                <td>The Launcher's version, and which app is set as the default home screen.</td>
               </tr>
               <tr>
                 <td>Timestamps</td>
@@ -160,33 +168,26 @@
           </table>
         </div>
         <p>
-          It sends this information when it registers for push messages (after setup, after a restart or app update,
-          when its configuration or push token changes, and every 12 hours) and after each installation attempt.
+          It sends this information when it is first set up, after a restart or app update, when its configuration or
+          push token changes, and every 12 hours.
         </p>
         <p>
-          The Extension app does not access contacts, messages, call logs, location, camera, microphone, photos or files,
-          and does not collect a list of the apps installed on the device. It only checks the {{ config.productName }}
-          Launcher and which app is the default home screen.
+          On the device, the Launcher reads the list of launchable apps (to show the ones the organization allows) and
+          battery, network and storage status (to display them). This information stays on the device and is not sent
+          to {{ config.productName }}.
         </p>
-
-        <h3>{{ config.productName }} Launcher app</h3>
         <p>
-          The Launcher uses the network state and set wallpaper permissions. It does not have internet access and does not
-          send information to {{ config.productName }}. On the device, it uses the list of installed apps (to display
-          them), battery, network and storage status (to display them), a wallpaper image the device user picks, and its
-          own settings.
+          The Launcher does not access contacts, messages, call logs, location, camera, microphone, photos or files, does
+          not send the list of installed apps, and does not collect hardware identifiers such as serial number, IMEI or
+          phone number.
         </p>
 
         <h3>Information from Google's Android Management API</h3>
         <p>
           {{ config.productName }} manages devices through Google's Android Management API. The console shows the
-          following device information from it: device state, management mode, ownership type, applied policy and
-          compliance details, enrollment, last status report and last policy sync times, brand, manufacturer, model,
-          Android version and security patch level.
-        </p>
-        <p>
-          Google's device records can also include hardware identifiers such as serial number, IMEI, MAC address or phone
-          number. The {{ config.productName }} console is designed not to display these.
+          following device information from it: device state, management mode, applied policy and compliance details,
+          enrollment, last status report and last policy sync times, brand, manufacturer, model, serial number, Android
+          version and security patch level, and the apps installed through the device's policy.
         </p>
       </section>
 
@@ -194,8 +195,8 @@
       <section :id="sections[3].id" class="policy-section">
         <h2><span class="num">04</span>{{ sections[3].title }}</h2>
         <p>
-          The {{ config.productName }} Extension and Launcher apps do not request location permissions and do not collect
-          device location. The {{ config.productName }} console and backend do not include a device location feature.
+          The {{ config.productName }} Launcher does not request location permissions and does not collect device
+          location. The {{ config.productName }} console and backend do not include a device location feature.
         </p>
         <p>
           Device policies applied through {{ config.productName }} can include settings that control the device's own
@@ -207,16 +208,18 @@
       <!-- 5 -->
       <section :id="sections[4].id" class="policy-section">
         <h2><span class="num">05</span>{{ sections[4].title }}</h2>
-        <p>We use information to:</p>
+        <p>We use information only to provide {{ config.productName }} to the organization that manages the device:</p>
         <ul>
-          <li>create and verify your account, sign you in, and control who can access it;</li>
-          <li>enroll devices and apply the policies and commands you choose;</li>
-          <li>send commands to devices through push notifications;</li>
-          <li>install and update the {{ config.productName }} Launcher, after checking the file's package name, version and signing certificate;</li>
-          <li>show device status, policy compliance and installation results in the console;</li>
+          <li>create and verify accounts, sign administrators in, and control who can access each account;</li>
+          <li>enroll devices and apply the policies, apps and commands the organization chooses;</li>
+          <li>deliver the organization's Launcher settings, wallpaper and branding to its devices;</li>
+          <li>show device status and policy compliance in the console;</li>
           <li>keep the service secure, investigate problems and prevent misuse.</li>
         </ul>
-        <p>The {{ config.productName }} Android apps do not contain advertising code.</p>
+        <p>
+          We do not sell personal information, and we do not use it for advertising. The {{ config.productName }}
+          Launcher contains no advertising or analytics code.
+        </p>
       </section>
 
       <!-- 6 -->
@@ -224,20 +227,18 @@
         <h2><span class="num">06</span>{{ sections[5].title }}</h2>
         <p>The {{ config.productName }} backend runs on Amazon Web Services (AWS):</p>
         <ul>
-          <li><strong>Amazon API Gateway</strong> receives requests from the console and the Extension app over HTTPS.</li>
+          <li><strong>AWS AppSync and Amazon API Gateway</strong> receive requests from the console and the Launcher over HTTPS.</li>
           <li><strong>AWS Lambda</strong> runs the backend logic.</li>
-          <li><strong>Amazon DynamoDB</strong> stores account, policy, enrollment token and device command records.</li>
-          <li><strong>Amazon Cognito</strong> manages accounts and sign-in.</li>
-          <li><strong>Amazon S3</strong> stores {{ config.productName }} Launcher installation files, which devices download through time-limited links.</li>
+          <li><strong>Amazon DynamoDB</strong> stores account, device, policy, group, enrollment and command records.</li>
+          <li><strong>Amazon Cognito</strong> manages administrator accounts and sign-in.</li>
+          <li><strong>Amazon S3</strong> stores files uploaded by administrators, such as wallpaper and branding images, which devices download through time-limited links.</li>
         </ul>
         <p>Security measures include:</p>
         <ul>
-          <li>The Extension app only communicates over HTTPS; unencrypted connections are disabled.</li>
+          <li>All information is sent over encrypted HTTPS connections; the Launcher has unencrypted connections disabled.</li>
           <li>Every console request must carry a valid sign-in token, and access is limited by role.</li>
-          <li>Each account's records are kept separate, and the backend only returns them to that account's authorized users.</li>
-          <li>Wiping a device requires a recent sign-in.</li>
-          <li>The Extension app only installs the {{ config.productName }} Launcher from allowed locations and only when its signing certificate matches the configured value.</li>
-          <li>The Extension app keeps its data in private app storage, excludes it from Android backups, and does not save backend credentials.</li>
+          <li>Each organization's records are kept separate, and the backend only returns them to that organization's authorized administrators.</li>
+          <li>The Launcher only downloads images from allowed locations, keeps its data in private app storage, and excludes it from Android backups.</li>
         </ul>
         <p>No method of transmission or storage is completely secure, and we cannot guarantee absolute security.</p>
       </section>
@@ -249,45 +250,45 @@
           <div class="provider">
             <h3>Google Firebase Cloud Messaging</h3>
             <p>
-              Delivers push messages from the backend to the Extension app. The Firebase SDK uses a registration token and a
+              Delivers push messages from the backend to the Launcher. The Firebase SDK uses a registration token and a
               Firebase installation ID.
               <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase privacy</a>
             </p>
           </div>
           <div class="provider">
-            <h3>Google Android Management API</h3>
+            <h3>Google Android Management API and Google Play</h3>
             <p>
-              Applies policies and commands, installs apps through Google's Android Device Policy app, and provides device
-              records to {{ config.productName }}.
+              Applies policies and commands, installs the Launcher and other apps through Google's Android Device Policy
+              app and managed Google Play, and provides device records to {{ config.productName }}.
               <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>
             </p>
           </div>
           <div class="provider">
             <h3>Amazon Web Services</h3>
             <p>
-              Hosts the {{ config.productName }} backend, account sign-in, data storage and installation files.
+              Hosts the {{ config.productName }} backend, administrator sign-in, data storage and uploaded files.
               <a href="https://aws.amazon.com/privacy/" target="_blank" rel="noopener">AWS Privacy Notice</a>
             </p>
           </div>
         </div>
-        <p>These providers process information under their own terms and privacy policies.</p>
+        <p>These providers process information on our behalf, under their own terms and privacy policies.</p>
       </section>
 
       <!-- 8 -->
       <section :id="sections[7].id" class="policy-section">
         <h2><span class="num">08</span>{{ sections[7].title }}</h2>
-        <p>We share information in the following ways:</p>
+        <p>We do not sell or rent personal information. We share it only in the following ways:</p>
         <ul>
+          <li>
+            <strong>Within the organization.</strong> Device and status information is visible to the administrators of
+            the organization that manages the device, according to their role.
+          </li>
           <li>
             <strong>{{ provider }} staff.</strong> Our authorized staff may access account and device information when
             needed to provide support, operate the service and keep it secure.
           </li>
           <li>
-            <strong>Within your account.</strong> Device and status information is visible to the users of the
-            {{ config.productName }} account that manages the device, according to their role.
-          </li>
-          <li>
-            <strong>Service providers.</strong> The providers listed in Section 7 process information to run
+            <strong>Service providers.</strong> The providers listed in Section 7 process information on our behalf to run
             {{ config.productName }}.
           </li>
           <li>
@@ -302,17 +303,17 @@
         <h2><span class="num">09</span>{{ sections[8].title }}</h2>
         <ul>
           <li>
-            <strong>Account and management information</strong> is kept to provide {{ config.productName }} to the account
-            it belongs to. To request deletion of your account or its information, contact us using the details in
+            <strong>Account and management information</strong> is kept while the organization uses
+            {{ config.productName }}. To request deletion of an account or its information, email us at the address in
             Section 13.
           </li>
           <li>
-            <strong>Enrollment tokens</strong> can be revoked by account users in the console.
+            <strong>Devices</strong> can be removed by the organization's administrators in the console. Enrollment tokens
+            can be revoked there too.
           </li>
           <li>
-            <strong>On the device</strong>, the Extension app's data stays in private app storage until it is replaced,
-            the app is uninstalled or the device is wiped. Temporary installation records are removed automatically
-            some time after the work is finished, and downloaded installation files are deleted after installation completes.
+            <strong>On the device</strong>, the Launcher's data stays in private app storage until the app is
+            uninstalled or the device is reset. Uninstalling the Launcher or resetting the device removes it.
           </li>
         </ul>
       </section>

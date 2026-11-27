@@ -11,10 +11,10 @@ export default {
 
   // REQUIRED: legal name of the company that provides MMDM.
   // While empty, the policy refers to the provider as "MMDM".
-  companyName: '',
+  companyName: 'Mobil80 Solutions Pvt Ltd',
 
   // REQUIRED: email address for privacy questions and requests.
-  contactEmail: '',
+  contactEmail: 'contactus@mobil80.com',
 
   // Optional: registered business address.
   companyAddress: '',
@@ -23,8 +23,8 @@ export default {
   websiteUrl: '',
 
   // REQUIRED: date this version takes effect, e.g. '1 December 2026'.
-  lastUpdated: '',
+  lastUpdated: '27 November 2026',
 
-  // Android package name of the MMDM Extension app (from the app source).
-  extensionPackage: 'com.mmdm.amapi.extension',
+  // Android package name of the MMDM Launcher app on Google Play (from the app source).
+  launcherPackage: 'com.mobil80.mmdm.launcher',
 }

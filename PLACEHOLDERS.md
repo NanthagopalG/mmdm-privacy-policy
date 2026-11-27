@@ -8,9 +8,9 @@ worded conservatively. Confirm each one and update `src/App.vue` if needed.
 
 Empty values are hidden on the page; `npm run build` warns while required ones are empty.
 
-- [ ] `companyName` (required). Until set, the policy calls the provider "MMDM". Source code mentions "Mobil80"/"Mobi80" (MMDM-BMS README); confirm the exact legal name.
-- [ ] `contactEmail` (required). Until set, the Contact Us section has no contact method, and Sections 9 and 10 point to it.
-- [ ] `lastUpdated` (required).
+- [x] `companyName`: Mobil80 Solutions Pvt Ltd. Until set, the policy calls the provider "MMDM". Source code mentions "Mobil80"/"Mobi80" (MMDM-BMS README); confirm the exact legal name.
+- [x] `contactEmail`: contactus@mobil80.com. Until set, the Contact Us section has no contact method, and Sections 9 and 10 point to it.
+- [x] `lastUpdated`: 27 November 2026.
 - [ ] `companyAddress`, `websiteUrl` (optional).
 
 ## 2. Statements in the policy that are commitments, not code facts
@@ -37,7 +37,9 @@ Empty values are hidden on the page; `npm run build` warns while required ones a
 
 ## Facts taken from source code (re-check when the apps change)
 
-- Extension (`com.mmdm.amapi.extension`): permissions INTERNET, ACCESS_NETWORK_STATE, RECEIVE_BOOT_COMPLETED only; data sent in `StatusReporter.kt`; device ID from `DeviceIdProvider.kt`; Firebase Messaging only; backups disabled; cleartext disabled.
-- Launcher: permissions ACCESS_NETWORK_STATE and SET_WALLPAPER only; no INTERNET permission.
-- Console sign-up (`SignUpView.vue`): organization/account name, contact name, role, email, phone; email verified by code; sign-in by email one-time passcode (no password); Amazon Cognito.
-- Backend: API Gateway + Lambda + DynamoDB + Cognito; device field allowlist in `deviceService.js`; LOCK/REBOOT/WIPE commands, wipe needs recent sign-in; `createdBy`/`updatedBy` recorded; enrollment tokens can be revoked; logger redacts secrets and device identifiers.
+- The Extension app is no longer part of MMDM; the Launcher (`com.mobil80.mmdm.launcher`, 1.5.0) registers with the backend itself.
+- Launcher permissions: INTERNET, ACCESS_NETWORK_STATE, SET_WALLPAPER, RECEIVE_BOOT_COMPLETED. Cleartext and backups disabled. Firebase Messaging is the only third-party SDK.
+- Launcher sends (`RegistrationRequest.kt`): device ID (managed config or ANDROID_ID), correlation ID, MMDM device ID and secret, FCM token, package/version, manufacturer, model, SDK level, default home app, timestamp. At setup, restart, update, config/token change and every 12 hours.
+- Launcher downloads wallpaper/branding images over HTTPS from allowed hosts only; reads launchable apps (LauncherApps), battery, network and storage on device only.
+- Console: sign-up and admins (name, email, phone, role, organization), email OTP sign-in via Cognito; commands LOCK, REBOOT, RESET_PASSWORD, START/STOP_LOST_MODE, CLEAR_APP_DATA; activity log.
+- Backend: AppSync + API Gateway + Lambda + DynamoDB + Cognito + S3.
